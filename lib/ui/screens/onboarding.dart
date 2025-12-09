@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paywall_app/ui/widgets/primary_button.dart';
+import 'package:go_router/go_router.dart';
 import 'package:paywall_app/viewmodels/onboarding_viewmodel.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -31,7 +32,9 @@ class OnboardingScreen extends StatelessWidget {
             PrimaryButton(
               text: 'Продолжить',
               onPressed: () {
-                viewModel.navigateToPaywall(context);
+                viewModel.navigateToPaywall(onNavigationRequested: () {
+                  GoRouter.of(context).go('/paywall'); // Навигация происходит в UI
+                });
               },
             ),
           ],

@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:paywall_app/data/services/storage/storage_service.dart';
 import 'package:paywall_app/data/repositories/subscription_repository.dart';
-import 'package:paywall_app/ui/screens/onboarding.dart';
-import 'package:paywall_app/data/models/subscription_info_base.dart';
-import 'package:paywall_app/ui/screens/home_screen.dart';
 import 'package:paywall_app/data/services/api/api_service.dart';
-import 'package:paywall_app/viewmodels/home_viewmodel.dart';
-import 'package:paywall_app/viewmodels/onboarding_viewmodel.dart';
+import 'package:paywall_app/router/app_router.dart'; // Импортируем наш роутер
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,40 +17,23 @@ void main() async {
 
   await subscriptionRepository.loadSubscriptionStatus();
 
-  runApp(MyApp(subscriptionRepository: subscriptionRepository));
+  // Присваиваем глобальный репозиторий для использования в GoRouter
+  globalSubscriptionRepository = subscriptionRepository;
+
+  runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  final SubscriptionRepository subscriptionRepository;
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  const MyApp({super.key, required this.subscriptionRepository});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: appRouter, // Используем routerConfig
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-      ),
-      home: ValueListenableBuilder<SubscriptionInfoBase>(
-        valueListenable: widget.subscriptionRepository.subscriptionInfo,
-        builder: (context, subscriptionInfo, child) {
-          if (widget.subscriptionRepository.isCurrentlyActive) {
-            return HomeScreen(
-              viewModel: HomeViewModel(widget.subscriptionRepository),
-            );
-          } else {
-            return OnboardingScreen(
-              viewModel: OnboardingViewModel(widget.subscriptionRepository),
-            );
-          }
-        },
       ),
     );
   }

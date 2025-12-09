@@ -10,7 +10,8 @@ class HomeViewModel {
 
   HomeViewModel(this._subscriptionRepository);
 
-  Future<void> resetSubscription() async {
+  Future<void> resetSubscription({required VoidCallback onNavigationRequested}) async {
     await _subscriptionRepository.resetSubscription();
+    onNavigationRequested();
   }
 }

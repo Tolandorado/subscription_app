@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paywall_app/ui/widgets/primary_button.dart';
 import 'package:paywall_app/utils/date_formatter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:paywall_app/viewmodels/home_viewmodel.dart';
 import 'package:paywall_app/data/models/subscription_info_base.dart';
 
@@ -28,9 +29,7 @@ class HomeScreen extends StatelessWidget {
                 valueListenable: viewModel.subscriptionInfo,
                 builder: (context, subscriptionInfo, child) {
                   return Text(
-                    dateFormatter(
-                      subscriptionInfo.endDate,
-                    ),
+                    dateFormatter(subscriptionInfo.endDate),
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   );
@@ -46,7 +45,13 @@ class HomeScreen extends StatelessWidget {
               PrimaryButton(
                 text: 'Сбросить подписку (для тестирования)',
                 onPressed: () async {
-                  await viewModel.resetSubscription();
+                  await viewModel.resetSubscription(
+                    onNavigationRequested: () {
+                      GoRouter.of(
+                        context,
+                      ).go('/onboarding'); // Навигация происходит в UI
+                    },
+                  );
                 },
               ),
             ],
