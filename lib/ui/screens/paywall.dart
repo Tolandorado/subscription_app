@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:paywall_app/data/repositories/subscription_repository.dart';
 import 'package:paywall_app/ui/widgets/primary_button.dart';
 import 'package:paywall_app/ui/widgets/card.dart';
@@ -63,7 +64,7 @@ class PaywallScreen extends StatelessWidget {
                       onPressed: selectedDuration != null
                           ? () => viewModel.purchaseSubscription(
                               onSuccess: () {
-                                Navigator.of(context).pop();
+                                GoRouter.of(context).go('/');
                               },
                               onError: (errorMessage) {
                                 ScaffoldMessenger.of(context).showSnackBar(
