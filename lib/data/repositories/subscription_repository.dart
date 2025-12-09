@@ -5,7 +5,7 @@ import 'package:paywall_app/data/services/api/api_service.dart';
 
 enum SubscriptionDuration { month, year }
 
-class SubscriptionRepository {
+class SubscriptionRepository extends ChangeNotifier {
   final LocalStorageService _localStorageService;
   final BaseApi _apiService;
 
@@ -14,7 +14,15 @@ class SubscriptionRepository {
   ValueListenable<SubscriptionInfoBase> get subscriptionInfo =>
       _subscriptionInfoNotifier;
 
-  SubscriptionRepository(this._localStorageService, this._apiService);
+  SubscriptionRepository(this._localStorageService, this._apiService) {
+    _subscriptionInfoNotifier.addListener(notifyListeners);
+  }
+
+  @override
+  void dispose() {
+    _subscriptionInfoNotifier.removeListener(notifyListeners);
+    super.dispose();
+  }
 
   bool get isCurrentlyActive {
     final info = _subscriptionInfoNotifier.value;
