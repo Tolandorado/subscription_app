@@ -47,9 +47,9 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () async {
                   await viewModel.resetSubscription(
                     onNavigationRequested: () {
-                      GoRouter.of(
-                        context,
-                      ).go('/onboarding'); // Навигация происходит в UI
+                      // GoRouter.of(
+                      //   context,
+                      // ).go('/onboarding'); // Навигация происходит в UI
                     },
                   );
                 },
