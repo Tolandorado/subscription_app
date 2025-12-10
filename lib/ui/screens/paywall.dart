@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:paywall_app/data/repositories/subscription_repository.dart';
-import 'package:paywall_app/ui/widgets/primary_button.dart';
-import 'package:paywall_app/ui/widgets/card.dart';
+import 'package:paywall_app/ui/core/primary_button.dart';
+import 'package:paywall_app/ui/core/card.dart';
 import 'package:paywall_app/viewmodels/paywall_viewmodel.dart';
 
 class PaywallScreen extends StatelessWidget {
